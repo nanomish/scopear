@@ -1,18 +1,9 @@
 import logo from './logo.svg';
 import './App.css';
 import ServerUtility from './ServerUtility';
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, useCallback} from "react";
 import BlockDataList from "./components/BlockDataList";
 import CreateBlock from "./components/CreateBlock";
-const validityAreaStyle = {display: 'flex', flexDirection: 'column', justifyContent: 'flex-start'};
-const checkValidityButtonStyle = {
-  background: 'white',
-  borderRadius: '5px',
-  cursor: 'pointer',
-  height: '3em',
-  outline: 'none',
-  width: '14em'
-};
 
 const CHECK_LAST_BLOCK_HASH_DELAY = 5000;
 
@@ -21,7 +12,7 @@ function App() {
   const [lastBlockHash, setLastBlockHash] = useState('');
   const [blocks, setBlocks] = useState([]);
   useEffect(() => {
-    checkBlockChainValidity();
+    checkBlockchainValidity();
     fetchAllBlocks();
   }, []);
 
@@ -40,14 +31,14 @@ function App() {
 
   async function fetchAllBlocks() {
     const blks = await ServerUtility.getBlocks();
-    console.log('*** blks', blks)
-    setBlocks(blks)
+    console.log('*** blks', blks);
+    setBlocks(blks);
   }
 
-  async function checkBlockChainValidity() {
+  const checkBlockchainValidity = useCallback(async () => {
     const isValid = await ServerUtility.isBlockchainValid();
     setIsBlockchainValid(isValid);
-  }
+    },[]);
 
   return (
     <div className="App">
@@ -57,15 +48,12 @@ function App() {
         </div>
         <CreateBlock onBlockCreated={fetchAllBlocks} previousHash={lastBlockHash}/>
         <div className='sep-section validity-section'>
-          <button style={checkValidityButtonStyle} onClick={checkBlockChainValidity}>Check Blockchain Validity</button>
+          <button className="check-validity-button-styling" onClick={checkBlockchainValidity}>Check Blockchain Validity</button>
           <div style={{color: isBlockchainValid ? 'green' : 'red'}}>Blockchain is {isBlockchainValid ? 'valid' : 'invalid'}</div>
         </div>
         <div>
           <div style={{ color: "grey" }} >
             <BlockDataList blocks={blocks}/>
-          </div>
-          <div style={{ color: "green", marginTop: '10%'}} >
-            Input new block
           </div>
 
         </div>

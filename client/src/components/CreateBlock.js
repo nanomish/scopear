@@ -1,18 +1,25 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import _ from 'lodash';
 import ServerUtility from '../ServerUtility';
+const ERROR_TYPE = 'error';
+const MESSAGE_TYPE = 'message';
 
 export default function CreateBlock({onBlockCreated, previousHash}) {
   const [message, setMessage] = useState('');
   const [nonce, setNonce] = useState('');
-  //const [previousHash, setPreviousHash] = useState('');
-  const [error, setError] = useState('');
-  const [notification, setNotification] = useState('')
+  const [notification, setNotification] = useState('');
+  const [notificationType, setNotificationType] = useState('')
+  const removeNotifications = useRef();
 
-  const removeMessages = _.debounce(() => {
-    setNotification('');
-    setError('');
-  }, 4000);
+  useEffect(() => {
+    removeNotifications.current = _.debounce(() => {
+      setNotification('');
+      setNotificationType('');
+
+      return () => removeNotifications.current.cancel();
+    }, 4000);
+  }, []);
+
 
   function invokeBlockProposal() {
 
@@ -24,36 +31,38 @@ export default function CreateBlock({onBlockCreated, previousHash}) {
       previousHash,
       message,
       nonce,
-    }).then(response => {
+    }).then(() => {
       resetState();
       setNotification('Block was created!');
-      removeMessages();
+      setNotificationType(MESSAGE_TYPE);
+      removeNotifications.current();
       _.isFunction(onBlockCreated) && onBlockCreated();
     }).catch(e => {
-      setError(e.message);
-      removeMessages()
+      setNotification(e.message);
+      setNotificationType(ERROR_TYPE);
+
+      removeNotifications.current();
     });
 
   }
 
   function resetState() {
-    //setPreviousHash('');
     setMessage('');
     setNonce('');
     setNotification('');
-    setError('');
+    setNotificationType('');
   }
 
   return (<div className='create-proposal-form sep-section'>
     <div className='create-proposal-form-input'>
-
       <input type="text" placeholder='message' value={message} onChange={e => setMessage(e.target.value)} />
       <input type="text" placeholder='nonce' value={nonce} onChange={e => setNonce(e.target.value)} />
-      {/*<input type="text" placeholder='previous hash' value={previousHash} onChange={e => setPreviousHash(e.target.value)} />*/}
       <button onClick={invokeBlockProposal}>Create</button>
     </div>
-    <div className='create-proposal-form-error'>{error}</div>
-    <div className='create-proposal-form-message'>{notification}</div>
+    <div className='create-proposal-form-message'
+         style={{color: notificationType === ERROR_TYPE ? 'red' : 'green'}}>
+      {notification}
+    </div>
   </div>);
 }
 

@@ -32,6 +32,7 @@ const calculateHash = (block) => {
     const nonce = block.nonce;
     return hash({ previousHash, message, nonce });
 }
+
 const getLastBlock = module.exports.getLastBlock = async () => {
     return Block.findOne(
       {},
@@ -63,8 +64,8 @@ let verifyBlock = async (proposedBlock, previousBlock) => {
         throw Error('Nonce or message are invalid');
     }
 
-    if ((nonce + message).length > 100) {
-        throw Error('Nonce + message length is greater than 100!');
+    if ((nonce + message).length > MAX_BLOCK_CHARACTERS) {
+        throw Error(`Nonce + message length is greater than ${MAX_BLOCK_CHARACTERS}!`);
     }
 
     if (previousHash !== previousBlock.hash) {

@@ -58,13 +58,86 @@
   outline: none;
 }
 
-.create-proposal-form-error {
+.create-proposal-form-message {
   height: 2em;
 }
 
-create-proposal-form-message {
-  height: 2em;
+.rectangle-line-styling {
+    border: 1px solid white;
+    display: flex;
+    flex-direction: column;
+    padding: .2em;
+    width: 95%;
+    font-size: .8em;
+    margin-top: .5em;
+    box-shadow: 1px 1px 3px 3px #eeeeee24;
 }
+
+.rectangle-view-styling {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 .5em;
+    overflow: auto;
+}
+
+.item-name-styling {
+    font-weight: 600;
+    width: 7em;
+    float: left;
+    text-align: left;
+}
+
+.item-value-styling {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    max-width: calc(100% - 8em);
+    white-space: nowrap;
+    float: left;
+    text-align: left;
+}
+
+.check-validity-button-styling {
+    background: white;
+    border-radius: 5px;
+    cursor: pointer;
+    height: 3em;
+    outline: none;
+    width: 14em
+}
+
+.component-style {
+    border: 1px solid white;
+    width: 30em;
+    height: 15em;
+}
+
+.main-style {
+    overflow: scroll;
+    max-height: 13em;
+}
+
+.radio-style {
+    cursor: pointer;
+    margin: 0 1em 0.7em 1em;
+    transform: scale(1.5);
+}
+
+.chat-style {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 0 .5em;
+    overflow: auto;
+}
+
+.chat-line-style {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    max-width: 100%;
+    white-space: nowrap;
+}
+
 .App-link {
   color: #61dafb;
 }
