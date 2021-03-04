@@ -21,7 +21,11 @@ function App() {
     function getLastBlockHash() {
       ServerUtility.getLastBlockHash()
         .then(hash => {
-          setLastBlockHash(hash)
+          setLastBlockHash(hash);
+          const lastBlockLocally = blocks[blocks.length -1];
+          if (lastBlockLocally.hash !== hash) {
+            fetchAllBlocks();
+          }
         });
     }
 
