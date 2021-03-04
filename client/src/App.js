@@ -11,6 +11,7 @@ function App() {
   const [isBlockchainValid, setIsBlockchainValid] = useState(true);
   const [lastBlockHash, setLastBlockHash] = useState('');
   const [blocks, setBlocks] = useState([]);
+
   useEffect(() => {
     checkBlockchainValidity();
     fetchAllBlocks();
@@ -49,7 +50,7 @@ function App() {
         <CreateBlock onBlockCreated={fetchAllBlocks} previousHash={lastBlockHash}/>
         <div className='sep-section validity-section'>
           <button className="check-validity-button-styling" onClick={checkBlockchainValidity}>Check Blockchain Validity</button>
-          <div style={{color: isBlockchainValid ? 'green' : 'red'}}>Blockchain is {isBlockchainValid ? 'valid' : 'invalid'}</div>
+          <div style={{color: isBlockchainValid ? 'green' : 'red', margin: '0 1em'}}>Blockchain is {isBlockchainValid ? 'valid' : 'invalid'}</div>
         </div>
         <div>
           <div style={{ color: "grey" }} >

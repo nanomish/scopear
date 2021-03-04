@@ -11,7 +11,7 @@ router.post('/propose', async (req, res, next) => {
         return res.status(200).send({success: true});
     }
     catch (error) {
-        return res.status(500).send({message: error.message});
+        return res.status(400).send({message: error.message});
     }
 });
 
@@ -21,7 +21,7 @@ router.get('/list', async (req, res) => {
         return res.status(200).send(blocks);
     }
     catch (e) {
-        return res.status(500).send(e.message);
+        return res.status(400).send(e.message);
     }
 });
 
@@ -31,7 +31,7 @@ router.get('/last-hash', async (req, res) => {
         return res.status(200).send({hash: block.hash});
     }
     catch (e) {
-        return res.status(500).send({message: e.message});
+        return res.status(400).send({message: e.message});
     }
 });
 
@@ -42,7 +42,7 @@ router.get('/is-blockchain-valid', async (req, res) => {
         return res.status(200).send(isValid);
     }
     catch (e) {
-        return res.status(500).send(e.message);
+        return res.status(400).send(e.message);
     }
 });
 

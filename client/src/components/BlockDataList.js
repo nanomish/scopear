@@ -12,6 +12,24 @@ export default function BlockDataList({ blocks}) {
     setViewType(value);
   }
 
+  function getViewComponent() {
+    let component;
+    switch (viewType) {
+      case VIEW_TYPE_RECTANGLE:
+        component = (<div>
+          <RectangleDataListView blocks={blocks} />
+        </div>)
+        break;
+      case VIEW_TYPE_CHAT:
+        component = (<div>
+          <ChatDataListView blocks={blocks} />
+        </div>)
+        break;
+    }
+
+    return component;
+  }
+
   return (
     <div className="component-style">
       <div>
@@ -30,16 +48,7 @@ export default function BlockDataList({ blocks}) {
       </div>
 
       <div className="main-style">
-        {
-          viewType === VIEW_TYPE_RECTANGLE ?
-            <div>
-              <RectangleDataListView blocks={blocks} />
-            </div>
-            :
-            <div>
-              <ChatDataListView blocks={blocks} />
-            </div>
-        }
+        {getViewComponent()}
       </div>
     </div>
   )
