@@ -9,7 +9,7 @@ const CHECK_LAST_BLOCK_HASH_DELAY = 5000;
 
 function App() {
   const [isBlockchainValid, setIsBlockchainValid] = useState(true);
-  const [lastBlockHash, setLastBlockHash] = useState('');
+  const [lastBlockHash, setLastBlockHash] = useState({});
   const [blocks, setBlocks] = useState([]);
 
   useEffect(() => {
