@@ -9,7 +9,7 @@ const CHECK_LAST_BLOCK_HASH_DELAY = 5000;
 
 function App() {
   const [isBlockchainValid, setIsBlockchainValid] = useState(true);
-  const [lastBlockHash, setLastBlockHash] = useState({});
+  const [lastBlockHash, setLastBlockHash] = useState('');
   const [blocks, setBlocks] = useState([]);
 
   useEffect(() => {
@@ -23,7 +23,7 @@ function App() {
         .then(hash => {
           setLastBlockHash(hash);
           const lastBlockLocally = blocks[blocks.length -1];
-          if (lastBlockLocally.hash !== hash) {
+          if (lastBlockLocally && lastBlockLocally.hash !== hash) {
             fetchAllBlocks();
           }
         });
@@ -32,7 +32,7 @@ function App() {
     getLastBlockHash();
     let id = setInterval(getLastBlockHash, CHECK_LAST_BLOCK_HASH_DELAY);
     return () => clearInterval(id);
-  }, []);
+  }, [blocks]);
 
   async function fetchAllBlocks() {
     const blks = await ServerUtility.getBlocks();
